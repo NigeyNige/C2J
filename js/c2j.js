@@ -74,9 +74,40 @@ document.getElementById('file').onchange = function(){
             
             event.options = optionsArray;
             
-            console.log(event);
+            //console.log(event);
+            events.push(event);
 		}
+            
+        JSONtext = JSON.stringify(events);
+        console.log(JSONtext);
 	};
 	
 	reader.readAsText(file);
 };
+
+(function () {
+var textFile = null,
+    makeTextFile = function (text) {
+        var data = new Blob([text], {type: 'text/plain'});
+
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (textFile !== null) {
+            window.URL.revokeObjectURL(textFile);
+        }
+
+        textFile = window.URL.createObjectURL(data);
+
+        // returns a URL you can use as a href
+        return textFile;
+    };
+    
+    var create = document.getElementById('create');
+
+    create.addEventListener('click', function () {
+        var link = document.getElementById('downloadlink');
+        link.href = makeTextFile(JSONtext);
+        link.style.display = 'block';
+    }, false);
+    
+})();
