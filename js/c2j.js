@@ -1,3 +1,5 @@
+var events = [];
+
 document.getElementById('file').onchange = function(){
 
     var file = this.files[0];
@@ -6,17 +8,73 @@ document.getElementById('file').onchange = function(){
 	
     reader.onload = function(progressEvent) {
 		
-		console.log(this.result);
-		
 		var lines = this.result.split('\n');
 		
-		for(var line = 0; line < lines.length; line++) {
+        //Start from 1 because 0 is the title row
+		for(var line = 1; line < lines.length; line++) {
 			
 			var tabs = lines[line].split('\t');
+            
+            var event = {};
 			
-			for(var tab = 0; tab < tabs.length; tab++) {
-				console.log(tabs[tab]);
-			}
+            //11 values
+            
+            if (tabs.length != 11) {
+                console.log("This row doesn't have 11 values. It has " + tabs.length + ". Data invalid.");
+                return;
+            }
+            
+            event.name = tabs[0];
+            event.title = tabs[1];
+            event.content = tabs[2];
+            
+            var optionsArray = [];
+            
+            var option1 = {};
+            option1.choice = tabs[3];
+            
+            var odds1 = parseFloat(tabs[4]);
+            
+            if (odds1 >= 1)   //If the winchance is given as 1 (>= instead of == just in case there's floating point weirdness), then it's not a diceroll event
+                option1.diceRoll = false;
+            else {
+                option1.diceRoll = true;
+                option1.winChance = odds1;
+            }
+            
+            if (option1.diceRoll) {
+                option1.win = {response: tabs[5]};
+                option1.fail = {response: tabs[6]};
+            } else {
+                option1.response = tabs[5];
+            }
+            
+            optionsArray.push(option1);
+            
+            var option2 = {};
+            option2.choice = tabs[7];
+            
+            var odds2 = parseFloat(tabs[8]);
+            
+            if (odds2 >= 1)
+                option2.diceRoll = false;
+            else {
+                option2.diceRoll = true;
+                option2.winChance = odds2;
+            }
+            
+            if (option2.diceRoll) {
+                option2.win = {response: tabs[9]};
+                option2.fail = {response: tabs[10]};
+            } else {
+                option2.response = tabs[9];
+            }
+            
+            optionsArray.push(option2);
+            
+            event.options = optionsArray;
+            
+            console.log(event);
 		}
 	};
 	
