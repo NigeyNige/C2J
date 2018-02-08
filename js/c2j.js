@@ -77,7 +77,7 @@ document.getElementById('file').onchange = function(){
             //console.log(event);
             events.push(event);
 		}
-            
+        
         JSONtext = JSON.stringify(events, null, 4);
         console.log(JSONtext);
 	};
