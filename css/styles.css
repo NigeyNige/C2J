@@ -14,11 +14,16 @@ h2 {
     font-weight: 400;
 }
 
+input {
+    color: #fff;
+}
+
 .button {
     border-radius: 2px;
     font-size: 1.2em;
     background-color: #fff;
     color: #333;
+    padding: .2em 1.5em;
 }
 
 .box {
@@ -27,4 +32,15 @@ h2 {
     width: 30%;
     margin: auto;
     padding: 2em;
+}
+
+a {
+    color: #333;
+    font-weight: 600;
+    padding: .6em;
+    box-shadow: 2px 2px #999;
+    text-decoration: none;
+    margin: 20px;
+    background-color: #fff;
+    border-radius: 2px;
 }
